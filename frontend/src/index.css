@@ -1,0 +1,141 @@
+@import '@fontsource/ibm-plex-sans/400.css';
+@import '@fontsource/ibm-plex-sans/500.css';
+@import '@fontsource/ibm-plex-sans/600.css';
+@import '@fontsource/ibm-plex-sans/700.css';
+@import '@fontsource/ibm-plex-mono/400.css';
+@import '@fontsource/ibm-plex-mono/500.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root { color-scheme: dark; }
+html, body, #root { height: 100%; }
+body {
+  @apply bg-ink-800 text-paper font-sans antialiased;
+  font-feature-settings: 'ss02';
+}
+::selection { background: #4FC3C766; }
+*:focus-visible { outline: 2px solid #4FC3C7; outline-offset: 2px; border-radius: 4px; }
+
+/* scrollbars */
+* { scrollbar-width: thin; scrollbar-color: #556E94 transparent; }
+*::-webkit-scrollbar { width: 9px; height: 9px; }
+*::-webkit-scrollbar-thumb { background: #556E94; border-radius: 9px; border: 2px solid transparent; background-clip: padding-box; }
+
+@layer components {
+  .panel { @apply bg-ink-700 border border-ink-500 rounded-lg; }
+  .panel-quiet { @apply border border-ink-500 rounded-lg; }
+  .h-section { @apply text-[1.375rem] leading-tight font-semibold tracking-tight text-paper; }
+  .h-block { @apply text-[0.95rem] font-semibold text-paper; }
+  .lede { @apply text-paper-dim leading-relaxed max-w-[68ch]; }
+  .btn { @apply inline-flex items-center gap-2 rounded-md px-3.5 py-2 text-sm font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed; }
+  .btn-primary { @apply btn bg-contour text-ink-900 hover:bg-contour-glow; }
+  .btn-ghost { @apply btn text-paper-dim hover:text-paper hover:bg-ink-600; }
+  .btn-outline { @apply btn border border-ink-400 text-paper hover:border-contour hover:text-contour-glow; }
+  .input { @apply w-full rounded-md bg-ink-900 border border-ink-400 px-3 py-2 text-sm text-paper placeholder:text-paper-mute focus:border-contour focus:outline-none; }
+  .chip { @apply inline-flex items-center gap-1.5 rounded-full border border-ink-400 px-2.5 py-0.5 text-xs text-paper-dim; }
+  .path { @apply font-mono text-[0.8rem] text-contour-glow; }
+  .table-base { @apply w-full text-sm; }
+  .table-base th { @apply text-left font-medium text-paper-mute py-2 px-3 border-b border-ink-500 text-xs; }
+  .table-base td { @apply py-2 px-3 border-b border-ink-600 align-top; }
+  .table-base tr:hover td { @apply bg-ink-600/40; }
+}
+
+/* contour background on the home page */
+.contours { mask-image: radial-gradient(ellipse at 50% 35%, black 25%, transparent 75%); }
+
+/* markdown */
+.md { @apply text-paper-dim leading-relaxed text-[0.925rem]; }
+.md h1, .md h2, .md h3 { @apply text-paper font-semibold mt-4 mb-2; }
+.md h1 { @apply text-lg; } .md h2 { @apply text-base; } .md h3 { @apply text-[0.95rem]; }
+.md p { @apply my-2; }
+.md ul { @apply list-disc pl-5 my-2 space-y-1; }
+.md ol { @apply list-decimal pl-5 my-2 space-y-1; }
+.md a { @apply text-contour underline underline-offset-2; }
+.md strong { @apply text-paper font-semibold; }
+.md code { @apply font-mono text-[0.82em] bg-ink-900 border border-ink-500 rounded px-1 py-px text-contour-glow; }
+.md pre { @apply bg-ink-900 border border-ink-500 rounded-md p-3 my-3 overflow-x-auto text-[0.8rem] leading-relaxed; }
+.md pre code { @apply bg-transparent border-0 p-0 text-paper; }
+.md table { @apply my-3 text-sm; } .md th, .md td { @apply border border-ink-500 px-2 py-1; }
+.md blockquote { @apply border-l-2 border-contour-soft pl-3 text-paper-mute; }
+
+/* code viewer + highlight.js theme */
+.code-view { counter-reset: line; }
+.code-view .ln { @apply select-none text-right pr-4 text-paper-mute/80 w-12 inline-block; }
+.code-view .row:hover { background: #1B2D4766; }
+.code-view .row.hl { background: #F0A04B1f; box-shadow: inset 2px 0 0 #F0A04B; }
+.hljs-comment, .hljs-quote { color: #8FA1BA; font-style: italic; }
+.hljs-keyword, .hljs-selector-tag, .hljs-built_in { color: #C69BF2; }
+.hljs-string, .hljs-attr, .hljs-template-tag { color: #9FD99A; }
+.hljs-number, .hljs-literal { color: #F0A04B; }
+.hljs-title, .hljs-section, .hljs-function .hljs-title { color: #8FE3E6; }
+.hljs-type, .hljs-class .hljs-title { color: #F5C77E; }
+.hljs-variable, .hljs-params { color: #E7EEF6; }
+.hljs-meta { color: #7FB2F0; }
+.hljs-tag, .hljs-name { color: #EF8F8C; }
+
+/* mermaid */
+.mermaid-wrap svg { max-width: 100%; height: auto; }
+.mermaid-wrap .node rect, .mermaid-wrap .node polygon { rx: 6; }
+
+/* react flow tweaks */
+.react-flow__attribution { display: none; }
+.react-flow__controls { @apply !shadow-none; }
+.react-flow__controls-button { @apply !bg-ink-700 !border-ink-500 !fill-paper-dim hover:!bg-ink-600; }
+.react-flow__minimap { @apply !bg-ink-900 rounded-md border border-ink-500; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+
+/* ===================================================================
+   Motion system (all of it is switched off by prefers-reduced-motion)
+   =================================================================== */
+@keyframes rx-fade-up { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes rx-pop { from { opacity: 0; transform: scale(.92); } to { opacity: 1; transform: none; } }
+@keyframes rx-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes rx-draw { from { stroke-dashoffset: 1; } to { stroke-dashoffset: 0; } }
+@keyframes rx-flow { to { stroke-dashoffset: -28; } }
+@keyframes rx-reveal { from { clip-path: inset(0 100% 0 0); } to { clip-path: inset(0 0 0 0); } }
+@keyframes rx-pulse { 0%, 100% { box-shadow: 0 0 0 0 #F0A04B55; } 50% { box-shadow: 0 0 0 6px #F0A04B00; } }
+
+.rx-enter { animation: rx-fade-up .35s ease-out both; }
+.rx-reveal { animation: rx-reveal 1s cubic-bezier(.2,.7,.2,1) both; }
+
+/* ---------- Mermaid diagrams ---------- */
+.mermaid-wrap svg { max-width: none !important; }
+.mermaid-wrap small { color: #C9D5E3; }   /* colour only: sizes must stay as Mermaid measured them */
+.mermaid-wrap .rx-node-in { animation: rx-pop .45s ease-out both; transform-box: fill-box; transform-origin: center; }
+.mermaid-wrap .rx-fade-in { animation: rx-fade .5s ease-out both; }
+.mermaid-wrap path.rx-drawing, .mermaid-wrap line.rx-drawing { stroke-dasharray: 1 !important; stroke-dashoffset: 1; animation: rx-draw .7s ease-out forwards; }
+.mermaid-wrap.rx-flow path.flowchart-link.rx-drawn { stroke-dasharray: 8 6 !important; animation: rx-flow 1.4s linear infinite; }
+.mermaid-wrap.rx-flow path.flowchart-link.rx-drawn.edge-pattern-dotted { stroke-dasharray: 3 5 !important; }
+.mermaid-wrap .node, .mermaid-wrap path.flowchart-link, .mermaid-wrap .edgeLabel, .mermaid-wrap .cluster { transition: opacity .2s ease, stroke .2s ease; }
+.mermaid-wrap .rx-dim .node:not(.rx-hot),
+.mermaid-wrap .rx-dim path.flowchart-link:not(.rx-hot),
+.mermaid-wrap .rx-dim .edgeLabel { opacity: .12; }
+.mermaid-wrap path.flowchart-link.rx-hot { stroke: #F0A04B !important; stroke-width: 2.6px !important; opacity: 1; }
+.mermaid-wrap .node.rx-hot rect, .mermaid-wrap .node.rx-hot polygon, .mermaid-wrap .node.rx-hot path { stroke: #F0A04B !important; stroke-width: 2px !important; }
+.mermaid-wrap .node { cursor: default; }
+
+/* ---------- Architecture map ---------- */
+/* Entrance plays once on the inner box; hover/dim only toggles classes on the outer shell and edges. */
+.rx-map-node { animation: rx-pop .45s ease-out both; transition: border-color .2s ease, box-shadow .2s ease; }
+.rx-node-shell { transition: opacity .2s ease; }
+.rx-map.rx-dim .rx-node-shell:not(.rx-hot) { opacity: .16; }
+.rx-map .rx-node-shell.rx-hot .rx-map-node { border-color: #F0A04B !important; }
+.rx-map .rx-node-shell.rx-focus-node .rx-map-node { box-shadow: inset 4px 0 0 var(--c), 0 0 0 3px #F0A04B66 !important; }
+
+.rx-map .rx-edge-line { opacity: .42; transition: opacity .2s ease, stroke .2s ease, stroke-width .2s ease; }
+.rx-map.rx-dim .rx-edge:not(.rx-hot) .rx-edge-line { opacity: .06; }
+.rx-map .rx-edge.rx-hot .rx-edge-line { stroke: #F0A04B; stroke-width: calc(var(--w) + 1.4px); opacity: 1; marker-end: url(#rx-arrow-hot); }
+.rx-map .rx-edge.rx-weak { display: none; }
+.rx-map .rx-edge.rx-weak.rx-hot { display: inline; }
+.rx-edge-line.rx-drawing { stroke-dasharray: 1; stroke-dashoffset: 1; animation: rx-draw .9s ease-out both; }
+/* identical to the flowchart edges: same dash pattern, same speed */
+.rx-edge-line.rx-flowing { stroke-dasharray: 8 6; animation: rx-flow 1.4s linear infinite; }
+.react-flow__edge { pointer-events: visibleStroke; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mermaid-wrap path.rx-drawing, .mermaid-wrap line.rx-drawing, .rx-edge-line.rx-drawing { stroke-dasharray: none !important; stroke-dashoffset: 0; }
+  .mermaid-wrap.rx-flow path.flowchart-link.rx-drawn, .rx-edge-line.rx-flowing { stroke-dasharray: none !important; }
+}
