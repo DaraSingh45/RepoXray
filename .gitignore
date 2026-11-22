@@ -1,0 +1,9 @@
+node_modules/
+# frontend/dist is committed on purpose: Docker uses it instead of a memory-hungry build
+__pycache__/
+*.pyc
+.pytest_cache/
+backend/data/
+backend/static/
+data/
+.env
