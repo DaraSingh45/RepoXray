@@ -1,0 +1,52 @@
+# RepoXray — full stack.
+#   docker compose up --build                     -> UI on http://localhost:3000 (uses Ollama on your host if running)
+#   docker compose --profile ollama up --build     -> also starts Ollama in a container and pulls models
+services:
+  api:
+    build: ./backend
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    environment:
+      # Only used by the Ollama provider; Groq/Gemini/OpenAI/Anthropic use their own URLs.
+      REPOXRAY_LLM_BASE_URL: ${OLLAMA_URL:-http://host.docker.internal:11434}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    volumes:
+      - repoxray-data:/data
+    ports:
+      - "8000:8000"
+
+  web:
+    build: ./frontend
+    restart: unless-stopped
+    depends_on:
+      - api
+    ports:
+      - "3000:80"
+
+  ollama:
+    image: ollama/ollama:latest
+    profiles: ["ollama"]
+    restart: unless-stopped
+    volumes:
+      - ollama-models:/root/.ollama
+    ports:
+      - "11434:11434"
+    # Uncomment for NVIDIA GPUs:
+    # deploy: { resources: { reservations: { devices: [{ capabilities: [gpu] }] } } }
+
+  ollama-pull:
+    image: ollama/ollama:latest
+    profiles: ["ollama"]
+    depends_on:
+      - ollama
+    environment:
+      OLLAMA_HOST: http://ollama:11434
+    entrypoint: ["/bin/sh", "-c", "sleep 5 && ollama pull ${OLLAMA_MODEL:-llama3.1:8b} && ollama pull nomic-embed-text"]
+    restart: "no"
+
+volumes:
+  repoxray-data:
+  ollama-models:
