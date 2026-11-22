@@ -57,7 +57,6 @@ git history → quality & security → diagrams → RAG index → AI insights.
 
 Partial results are saved after static analysis, so the dashboard is usable before the AI steps finish.
 
-See [`docs/HOW_IT_WORKS.md`](docs/HOW_IT_WORKS.md) for the algorithms in detail.
 
 ## Tech stack
 
